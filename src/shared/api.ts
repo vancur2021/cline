@@ -243,7 +243,7 @@ export interface ModelInfo {
 		maxBudget?: number // Max allowed thinking budget tokens
 		outputPrice?: number // Output price per million tokens when budget > 0
 		outputPriceTiers?: PriceTier[] // Optional: Tiered output price when budget > 0
-		geminiThinkingLevel?: "low" | "high" // Optional: preset thinking level
+		geminiThinkingLevel?: "low" | "medium" | "high" // Optional: preset thinking level
 		supportsThinkingLevel?: boolean // Whether the model supports thinking level (low/high)
 	}
 	supportsGlobalEndpoint?: boolean // Whether the model supports a global endpoint with Vertex AI
@@ -1264,6 +1264,18 @@ export const geminiModels = {
 				cacheReadsPrice: 0.4,
 			},
 		],
+	},
+	"gemini-3-flash-preview": {
+		maxTokens: 65536,
+		contextWindow: 1_048_576,
+		supportsImages: true,
+		supportsPromptCache: true,
+		inputPrice: 0.5,
+		outputPrice: 3.0,
+		thinkingConfig: {
+			geminiThinkingLevel: "medium",
+			supportsThinkingLevel: true,
+		},
 	},
 	"gemini-2.5-pro": {
 		maxTokens: 65536,
