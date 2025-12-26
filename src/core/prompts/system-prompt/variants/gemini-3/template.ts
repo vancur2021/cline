@@ -2,6 +2,10 @@ import { SystemPromptSection } from "../../templates/placeholders"
 
 export const baseTemplate = `{{${SystemPromptSection.AGENT_ROLE}}}
 
+{{${SystemPromptSection.USER_INSTRUCTIONS}}}
+
+====
+
 {{${SystemPromptSection.TOOL_USE}}}
 
 ====
@@ -39,8 +43,4 @@ export const baseTemplate = `{{${SystemPromptSection.AGENT_ROLE}}}
 
 ====
 
-{{${SystemPromptSection.OBJECTIVE}}}
-
-====
-
-{{${SystemPromptSection.USER_INSTRUCTIONS}}}`
+{{${SystemPromptSection.OBJECTIVE}}}`

@@ -33,6 +33,7 @@ export const config = createVariant(ModelFamily.NEXT_GEN)
 	.template(baseTemplate)
 	.components(
 		SystemPromptSection.AGENT_ROLE,
+		SystemPromptSection.USER_INSTRUCTIONS,
 		SystemPromptSection.TOOL_USE,
 		SystemPromptSection.TASK_PROGRESS,
 		SystemPromptSection.MCP,
@@ -44,7 +45,6 @@ export const config = createVariant(ModelFamily.NEXT_GEN)
 		SystemPromptSection.RULES,
 		SystemPromptSection.SYSTEM_INFO,
 		SystemPromptSection.OBJECTIVE,
-		SystemPromptSection.USER_INSTRUCTIONS,
 	)
 	.tools(
 		ClineDefaultTool.BASH,

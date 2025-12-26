@@ -30,6 +30,7 @@ export const config = createVariant(ModelFamily.GEMINI_3)
 	.template(baseTemplate)
 	.components(
 		SystemPromptSection.AGENT_ROLE,
+		SystemPromptSection.USER_INSTRUCTIONS,
 		SystemPromptSection.TOOL_USE,
 		SystemPromptSection.RULES,
 		SystemPromptSection.ACT_VS_PLAN,
@@ -42,7 +43,6 @@ export const config = createVariant(ModelFamily.GEMINI_3)
 		SystemPromptSection.TASK_PROGRESS,
 		SystemPromptSection.SYSTEM_INFO,
 		SystemPromptSection.OBJECTIVE,
-		SystemPromptSection.USER_INSTRUCTIONS,
 	)
 	.tools(
 		ClineDefaultTool.BASH,
