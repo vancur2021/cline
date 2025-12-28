@@ -4,6 +4,7 @@ import { ClineDefaultTool } from "@/shared/tools"
 import { SystemPromptSection } from "../../templates/placeholders"
 import { createVariant } from "../variant-builder"
 import { validateVariant } from "../variant-validator"
+import { act_vs_plan_template, objective_template, tool_use_template } from "./overrides"
 import { baseTemplate, rules_template } from "./template"
 
 // Type-safe variant configuration using the builder pattern
@@ -71,6 +72,15 @@ export const config = createVariant(ModelFamily.NEXT_GEN)
 	// Override the RULES component with custom template
 	.overrideComponent(SystemPromptSection.RULES, {
 		template: rules_template,
+	})
+	.overrideComponent(SystemPromptSection.TOOL_USE, {
+		template: tool_use_template,
+	})
+	.overrideComponent(SystemPromptSection.ACT_VS_PLAN, {
+		template: act_vs_plan_template,
+	})
+	.overrideComponent(SystemPromptSection.OBJECTIVE, {
+		template: objective_template,
 	})
 	.build()
 
