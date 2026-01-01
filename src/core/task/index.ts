@@ -78,12 +78,11 @@ import pWaitFor from "p-wait-for"
 import * as path from "path"
 import { ulid } from "ulid"
 import * as vscode from "vscode"
-import type { SystemPromptContext } from "@/core/prompts/system-prompt"
-import { getSystemPrompt } from "@/core/prompts/system-prompt"
-import { HostProvider } from "@/hosts/host-provider"
-import { isSubagentCommand, transformClineCommand } from "@/integrations/cli-subagents/subagent_command"
-import { ClineError, ClineErrorType, ErrorService } from "@/services/error"
-import { TerminalHangStage, TerminalUserInterventionAction, telemetryService } from "@/services/telemetry"
+import { HostProvider } from "../../hosts/host-provider"
+import { isSubagentCommand, transformClineCommand } from "../../integrations/cli-subagents/subagent_command"
+import { ClineError, ClineErrorType, ErrorService } from "../../services/error"
+import { TerminalHangStage, TerminalUserInterventionAction, telemetryService } from "../../services/telemetry"
+import { isInTestMode } from "../../services/test/TestMode"
 import {
 	ClineAssistantContent,
 	ClineContent,
@@ -93,13 +92,14 @@ import {
 	ClineTextContentBlock,
 	ClineToolResponseContent,
 	ClineUserContent,
-} from "@/shared/messages/content"
-import { ShowMessageType } from "@/shared/proto/index.host"
-import { isClineCliInstalled, isCliSubagentContext } from "@/utils/cli-detector"
-import { isInTestMode } from "../../services/test/TestMode"
+} from "../../shared/messages/content"
+import { ShowMessageType } from "../../shared/proto/index.host"
+import { isClineCliInstalled, isCliSubagentContext } from "../../utils/cli-detector"
 import { ensureLocalClineDirExists } from "../context/instructions/user-instructions/rule-helpers"
 import { refreshWorkflowToggles } from "../context/instructions/user-instructions/workflows"
 import { Controller } from "../controller"
+import type { SystemPromptContext } from "../prompts/system-prompt"
+import { getSystemPrompt } from "../prompts/system-prompt"
 import { StateManager } from "../storage/StateManager"
 import { FocusChainManager } from "./focus-chain"
 import { MessageStateHandler } from "./message-state"
@@ -1845,7 +1845,7 @@ export class Task {
 				formatResponse.toolResult(
 					`Command is still running in the user's terminal.${
 						result.length > 0 ? `\nHere's the output so far:\n${result}` : ""
-					}\n\nThe user provided the following feedback:\n<feedback>\n${userFeedback.text}\n</feedback>`,
+					}\n\nYou will be updated on the terminal status and new output in the future.`,
 					userFeedback.images,
 					fileContentString,
 				),
@@ -2096,6 +2096,10 @@ export class Task {
 			maxConsecutiveMistakes: this.stateManager.getGlobalSettingsKey("maxConsecutiveMistakes"),
 		})
 
+		const currentRole = this.stateManager.getGlobalStateKey("currentRole")
+		const customRoles = this.stateManager.getGlobalStateKey("customRoles")
+		const customRoleDescription = customRoles?.find((r) => r.name === currentRole)?.description
+
 		const promptContext: SystemPromptContext = {
 			cwd: this.cwd,
 			ide,
@@ -2119,6 +2123,7 @@ export class Task {
 			isSubagentsEnabledAndCliInstalled,
 			isCliSubagent,
 			enableNativeToolCalls: this.stateManager.getGlobalStateKey("nativeToolCallEnabled"),
+			customRoleDescription,
 		}
 
 		const { systemPrompt, tools } = await getSystemPrompt(promptContext)
@@ -2476,7 +2481,7 @@ export class Task {
 				"mistake_limit_reached",
 				this.api.getModel().id.includes("claude")
 					? `This may indicate a failure in his thought process or inability to use a tool properly, which can be mitigated with some user guidance (e.g. "Try breaking down the task into smaller steps").`
-					: "Cline uses complex prompts and iterative task execution that may be challenging for less capable models. For best results, it's recommended to use Claude 4 Sonnet for its advanced agentic coding capabilities.",
+					: "Cline uses complex prompts and iterative task execution that may be challenging for less capabilities model. For best results, it's recommended to use Claude 4 Sonnet for its advanced agentic coding capabilities.",
 			)
 			if (response === "messageResponse") {
 				// Display the user's message in the chat UI
@@ -3309,7 +3314,7 @@ export class Task {
 
 		// Process all content and environment details in parallel
 		// NOTE: (Ara) This is a temporary solution to dynamically load context mentions from tool results. It checks for the presence of tags that indicate that the tool was rejected and feedback was provided (see formatToolDeniedFeedback, attemptCompletion, executeCommand, and consecutiveMistakeCount >= 3) or "<answer>" (see askFollowupQuestion), we place all user generated content in these tags so they can effectively be used as markers for when we should parse mentions). However if we allow multiple tools responses in the future, we will need to parse mentions specifically within the user content tags.
-		// (Note: this caused the @/ import alias bug where file contents were being parsed as well, since v2 converted tool results to text blocks)
+		// (Note: this caused the '' (see below for file content) import alias bug where file contents were being parsed as well, since v2 converted tool results to text blocks)
 		const [processedUserContent, environmentDetails] = await Promise.all([
 			Promise.all(userContent.map(processContentBlock)),
 			this.getEnvironmentDetails(includeFileDetails),

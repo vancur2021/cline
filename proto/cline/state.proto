@@ -329,6 +329,15 @@ message UpdateTaskSettingsRequest {
   optional string task_id = 3;
 }
 
+message CustomRole {
+  string name = 1;
+  string description = 2;
+}
+
+message CustomRoleList {
+  repeated CustomRole roles = 1;
+}
+
 // Message for updating settings
 message UpdateSettingsRequest {
   Metadata metadata = 1;
@@ -363,6 +372,8 @@ message UpdateSettingsRequest {
   optional string cline_env = 31;
   optional bool native_tool_call_enabled = 32;
   optional OnboardingModelGroup onboarding_models = 33;
+  optional CustomRoleList custom_roles = 34;
+  optional string current_role = 35;
 }
 
 message UpdateTerminalConnectionTimeoutRequest {

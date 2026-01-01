@@ -14,7 +14,7 @@ import { HistoryItem } from "./HistoryItem"
 import { McpDisplayMode } from "./McpDisplayMode"
 import { ClineMessageModelInfo } from "./messages/content"
 import { OnboardingModelGroup } from "./proto/cline/state"
-import { Mode, OpenaiReasoningEffort } from "./storage/types"
+import { CustomRole, Mode, OpenaiReasoningEffort } from "./storage/types"
 import { TelemetrySetting } from "./TelemetrySetting"
 import { UserInfo } from "./UserInfo"
 // webview will hold state
@@ -104,6 +104,8 @@ export interface ExtensionState {
 	remoteConfigSettings?: Partial<RemoteConfigFields>
 	subagentsEnabled?: boolean
 	nativeToolCallSetting?: boolean
+	customRoles?: CustomRole[]
+	currentRole?: string
 }
 
 export interface ClineMessage {

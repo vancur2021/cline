@@ -9,6 +9,7 @@ import {
 	SlidersHorizontal,
 	SquareMousePointer,
 	SquareTerminal,
+	Users,
 	Wrench,
 } from "lucide-react"
 import { useCallback, useEffect, useMemo, useState } from "react"
@@ -26,6 +27,7 @@ import BrowserSettingsSection from "./sections/BrowserSettingsSection"
 import DebugSection from "./sections/DebugSection"
 import FeatureSettingsSection from "./sections/FeatureSettingsSection"
 import GeneralSettingsSection from "./sections/GeneralSettingsSection"
+import RoleSettingsSection from "./sections/RoleSettingsSection"
 import TerminalSettingsSection from "./sections/TerminalSettingsSection"
 
 const IS_DEV = process.env.IS_DEV
@@ -54,6 +56,13 @@ export const SETTINGS_TABS: SettingsTab[] = [
 		tooltipText: "Feature Settings",
 		headerText: "Feature Settings",
 		icon: CheckCheck,
+	},
+	{
+		id: "roles",
+		name: "Roles",
+		tooltipText: "Role Settings",
+		headerText: "Role Settings",
+		icon: Users,
 	},
 	{
 		id: "browser",
@@ -124,6 +133,7 @@ const SettingsView = ({ onDone, targetSection }: SettingsViewProps) => {
 			general: GeneralSettingsSection,
 			features: FeatureSettingsSection,
 			browser: BrowserSettingsSection,
+			roles: RoleSettingsSection,
 			terminal: TerminalSettingsSection,
 			about: AboutSection,
 			debug: DebugSection,

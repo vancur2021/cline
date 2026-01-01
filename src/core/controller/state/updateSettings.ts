@@ -368,6 +368,21 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 			}
 		}
 
+		// Update custom roles
+		if (request.customRoles !== undefined) {
+			const customRoles = request.customRoles.roles.map((role) => ({
+				name: role.name,
+				description: role.description,
+			}))
+			controller.stateManager.setGlobalState("customRoles", customRoles)
+		}
+
+		// Update current role
+		if (request.currentRole !== undefined) {
+			// Ensure it's not undefined or null if it was meant to be set
+			controller.stateManager.setGlobalState("currentRole", request.currentRole)
+		}
+
 		// Post updated state to webview
 		await controller.postStateToWebview()
 
