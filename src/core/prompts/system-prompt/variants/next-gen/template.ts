@@ -3,8 +3,6 @@ import type { SystemPromptContext } from "../../types"
 
 export const baseTemplate = `{{${SystemPromptSection.AGENT_ROLE}}}
 
-{{${SystemPromptSection.USER_INSTRUCTIONS}}}
-
 ====
 
 {{${SystemPromptSection.TOOL_USE}}}
@@ -40,6 +38,10 @@ export const baseTemplate = `{{${SystemPromptSection.AGENT_ROLE}}}
 ====
 
 {{${SystemPromptSection.RULES}}}
+
+====
+
+{{${SystemPromptSection.USER_INSTRUCTIONS}}}
 
 ====
 
