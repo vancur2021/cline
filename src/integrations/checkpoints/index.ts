@@ -692,10 +692,19 @@ export class TaskCheckpointManager implements ICheckpointManager {
 
 				// Logic Changed: We are deleting the current message (Assistant) as well.
 				// Additionally, if the previous message is a User Message, we delete that too to keep the conversation clean.
-				let startIndex = messageIndex
-				const previousMessage = clineMessages[messageIndex - 1]
-				if (previousMessage && (previousMessage.type === "ask" || previousMessage.say === "user_feedback")) {
-					startIndex = messageIndex - 1
+				let startIndex = messageIndex - 2
+				const previousMessage = clineMessages[messageIndex - 2]
+
+				if (previousMessage && previousMessage.type === "say") {
+					let previousCheckpointIndex = findLastIndex(
+						clineMessages.slice(0, messageIndex),
+						(m) => m.say === "checkpoint_created",
+					)
+					previousCheckpointIndex += 1
+
+					if (previousCheckpointIndex !== -1) {
+						startIndex = previousCheckpointIndex
+					}
 				}
 
 				const deletedMessages = clineMessages.slice(startIndex)

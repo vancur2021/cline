@@ -49,4 +49,4 @@ src/core/api/providers/gemini.ts
 
 ## 打包命令
 
-rm -rf dist && rm -rf dist-standalone && npm install && cd webview-ui && npm install && rm -rf build && npm run build && cd .. && npm run package && npx vsce package --allow-package-secrets sendgrid
+rm -rf claude-dev-3.38.3.vsix && rm -rf dist && rm -rf dist-standalone && npm install && cd webview-ui && npm install && rm -rf build && npm run build && cd .. && npm run package && npx vsce package --allow-package-secrets sendgrid
