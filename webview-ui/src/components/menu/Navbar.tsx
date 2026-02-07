@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { TaskServiceClient } from "@/services/grpc-client"
 import { useExtensionState } from "../../context/ExtensionStateContext"
+import RoleSelector from "../chat/RoleSelector"
 
 // Custom MCP Server Icon component using VSCode codicon
 const McpServerIcon = ({ className, size }: { className?: string; size?: number }) => (
@@ -66,25 +67,30 @@ export const Navbar = () => {
 
 	return (
 		<nav
-			className="flex-none inline-flex justify-end bg-transparent gap-2 mb-1 z-10 border-none items-center mr-4!"
+			className="flex-none inline-flex justify-between bg-transparent gap-2 mb-1 z-10 border-none items-center mr-4!"
 			id="cline-navbar-container">
-			{SETTINGS_TABS.map((tab) => (
-				<Tooltip key={`navbar-tooltip-${tab.id}`}>
-					<TooltipContent side="bottom">{tab.tooltip}</TooltipContent>
-					<TooltipTrigger asChild>
-						<Button
-							aria-label={tab.tooltip}
-							className="p-0 h-7"
-							data-testid={`tab-${tab.id}`}
-							key={`navbar-button-${tab.id}`}
-							onClick={() => tab.navigate()}
-							size="icon"
-							variant="icon">
-							<tab.icon className="stroke-1 [svg]:size-4" size={18} />
-						</Button>
-					</TooltipTrigger>
-				</Tooltip>
-			))}
+			<div className="flex items-center">
+				<RoleSelector />
+			</div>
+			<div className="flex items-center gap-2">
+				{SETTINGS_TABS.map((tab) => (
+					<Tooltip key={`navbar-tooltip-${tab.id}`}>
+						<TooltipContent side="bottom">{tab.tooltip}</TooltipContent>
+						<TooltipTrigger asChild>
+							<Button
+								aria-label={tab.tooltip}
+								className="p-0 h-7"
+								data-testid={`tab-${tab.id}`}
+								key={`navbar-button-${tab.id}`}
+								onClick={() => tab.navigate()}
+								size="icon"
+								variant="icon">
+								<tab.icon className="stroke-1 [svg]:size-4" size={18} />
+							</Button>
+						</TooltipTrigger>
+					</Tooltip>
+				))}
+			</div>
 		</nav>
 	)
 }

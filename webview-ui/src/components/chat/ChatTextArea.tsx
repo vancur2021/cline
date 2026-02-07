@@ -190,7 +190,6 @@ const ModelSelectorTooltip = styled.div<ModelSelectorTooltipProps>`
 const ModelContainer = styled.div`
 	position: relative;
 	display: flex;
-	flex: 1;
 	min-width: 0;
 `
 
@@ -1781,11 +1780,22 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 									</ModelSelectorTooltip>
 								)}
 							</ModelContainer>
+
+							<div
+								style={{
+									width: "1px",
+									height: "12px",
+									backgroundColor: "var(--vscode-panel-border)",
+									margin: "0 4px",
+									opacity: 0.5,
+								}}
+							/>
+
+							<RoleSelector />
 						</ButtonGroup>
 					</div>
 					{/* Tooltip for Plan/Act toggle remains outside the conditional rendering */}
 					<div className="flex items-center">
-						<RoleSelector />
 						<Tooltip>
 							<TooltipContent
 								className="text-xs px-2 flex flex-col gap-1"
