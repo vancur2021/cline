@@ -125,10 +125,12 @@ export class GeminiHandler implements ApiHandler {
 		// When ThinkingLevel is defineded, thinking budget cannot be zero
 		// and only level is used to control thinking behavior.
 		let thinkingLevel: ThinkingLevel | undefined
-		if (this.options.thinkingLevel === "low") {
-			thinkingLevel = ThinkingLevel.LOW
-		} else if (this.options.thinkingLevel === "high") {
-			thinkingLevel = ThinkingLevel.HIGH
+		const effectiveThinkingLevel = this.options.thinkingLevel || info.thinkingConfig?.geminiThinkingLevel
+
+		if (effectiveThinkingLevel === "low") {
+			thinkingLevel = "low" as unknown as ThinkingLevel
+		} else if (effectiveThinkingLevel === "high") {
+			thinkingLevel = "high" as unknown as ThinkingLevel
 		}
 
 		// Set up base generation config
