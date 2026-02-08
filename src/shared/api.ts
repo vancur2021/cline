@@ -175,6 +175,8 @@ export interface ApiHandlerOptions {
 	planModeHicapModelId?: string
 	planModeHicapModelInfo?: ModelInfo
 	planModeNousResearchModelId?: string
+	geminiAlwaysIncludeThoughts?: boolean
+	geminiUseThinkingTag?: boolean
 	// Act mode configurations
 
 	// Act mode configurations

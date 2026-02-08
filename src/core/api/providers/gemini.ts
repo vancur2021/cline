@@ -31,6 +31,8 @@ interface GeminiHandlerOptions extends CommonApiHandlerOptions {
 	thinkingLevel?: string
 	apiModelId?: string
 	ulid?: string
+	geminiAlwaysIncludeThoughts?: boolean
+	geminiUseThinkingTag?: boolean
 }
 
 /**
@@ -149,7 +151,7 @@ export class GeminiHandler implements ApiHandler {
 			// Turn on fixed thinking budget:
 			thinkingBudget: thinkingLevel ? undefined : thinkingBudget,
 			thinkingLevel,
-			includeThoughts: false,
+			includeThoughts: this.options.geminiAlwaysIncludeThoughts || false,
 		}
 
 		// Generate content using the configured parameters

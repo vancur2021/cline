@@ -63,6 +63,7 @@ export interface ApiProviderInfo {
 	model: ApiHandlerModel
 	customPrompt?: string // "compact"
 	autoCondenseThreshold?: number // 0-1 range
+	geminiUseThinkingTag?: boolean
 }
 
 export interface SingleCompletionHandler {
@@ -171,6 +172,8 @@ function createHandlerForProvider(
 				thinkingLevel: mode === "plan" ? options.geminiPlanModeThinkingLevel : options.geminiActModeThinkingLevel,
 				apiModelId: mode === "plan" ? options.planModeApiModelId : options.actModeApiModelId,
 				ulid: options.ulid,
+				geminiAlwaysIncludeThoughts: options.geminiAlwaysIncludeThoughts,
+				geminiUseThinkingTag: options.geminiUseThinkingTag,
 			})
 		case "openai-native":
 			return new OpenAiNativeHandler({

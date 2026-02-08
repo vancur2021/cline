@@ -171,7 +171,11 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		const strictPlanModeEnabled =
 			context.globalState.get<GlobalStateAndSettings["strictPlanModeEnabled"]>("strictPlanModeEnabled")
 		const yoloModeToggled = context.globalState.get<GlobalStateAndSettings["yoloModeToggled"]>("yoloModeToggled")
-		const useAutoCondense = context.globalState.get<GlobalStateAndSettings["useAutoCondense"]>("useAutoCondense")
+		const geminiAlwaysIncludeThoughts =
+		context.globalState.get<GlobalStateAndSettings["geminiAlwaysIncludeThoughts"]>("geminiAlwaysIncludeThoughts")
+	const geminiUseThinkingTag =
+		context.globalState.get<GlobalStateAndSettings["geminiUseThinkingTag"]>("geminiUseThinkingTag")
+	const useAutoCondense = context.globalState.get<GlobalStateAndSettings["useAutoCondense"]>("useAutoCondense")
 		const clineWebToolsEnabled =
 			context.globalState.get<GlobalStateAndSettings["clineWebToolsEnabled"]>("clineWebToolsEnabled")
 		const isNewUser = context.globalState.get<GlobalStateAndSettings["isNewUser"]>("isNewUser")
@@ -509,10 +513,12 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		const customRoles = context.globalState.get<GlobalStateAndSettings["customRoles"]>("customRoles")
 		const currentRole = context.globalState.get<GlobalStateAndSettings["currentRole"]>("currentRole")
 
-		return {
-			// api configuration fields
-			claudeCodePath,
-			awsRegion,
+	return {
+		// api configuration fields
+		geminiAlwaysIncludeThoughts,
+		geminiUseThinkingTag,
+		claudeCodePath,
+		awsRegion,
 			awsUseCrossRegionInference,
 			awsUseGlobalInference,
 			awsBedrockUsePromptCache,

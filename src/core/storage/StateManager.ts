@@ -603,6 +603,8 @@ export class StateManager {
 			planModeAihubmixModelInfo,
 			planModeNousResearchModelId,
 			geminiPlanModeThinkingLevel,
+			geminiAlwaysIncludeThoughts,
+			geminiUseThinkingTag,
 			// Act mode configurations
 			actModeApiProvider,
 			actModeApiModelId,
@@ -683,6 +685,8 @@ export class StateManager {
 			planModeAihubmixModelInfo,
 			planModeNousResearchModelId,
 			geminiPlanModeThinkingLevel,
+			geminiAlwaysIncludeThoughts,
+			geminiUseThinkingTag,
 
 			// Act mode configuration updates
 			actModeApiProvider,
@@ -1337,6 +1341,10 @@ export class StateManager {
 				this.taskStateCache["actModeNousResearchModelId"] || this.globalStateCache["actModeNousResearchModelId"],
 			geminiActModeThinkingLevel:
 				this.taskStateCache["geminiActModeThinkingLevel"] || this.globalStateCache["geminiActModeThinkingLevel"],
+			geminiAlwaysIncludeThoughts:
+				this.taskStateCache["geminiAlwaysIncludeThoughts"] || this.globalStateCache["geminiAlwaysIncludeThoughts"],
+			geminiUseThinkingTag:
+				this.taskStateCache["geminiUseThinkingTag"] || this.globalStateCache["geminiUseThinkingTag"],
 			nousResearchApiKey: this.secretsCache["nousResearchApiKey"],
 		}
 	}

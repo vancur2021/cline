@@ -1,6 +1,6 @@
 import { geminiModels } from "@shared/api"
 import { Mode } from "@shared/storage/types"
-import { VSCodeDropdown, VSCodeOption } from "@vscode/webview-ui-toolkit/react"
+import { VSCodeDropdown, VSCodeOption, VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { ApiKeyField } from "../common/ApiKeyField"
 import { BaseUrlField } from "../common/BaseUrlField"
@@ -70,6 +70,38 @@ export const GeminiProvider = ({ showModelOptions, isPopup, currentMode }: Gemin
 						}
 						selectedModelId={selectedModelId}
 					/>
+
+					<div style={{ marginTop: 10 }}>
+						<VSCodeCheckbox
+							checked={apiConfiguration?.geminiAlwaysIncludeThoughts || false}
+							onChange={(e: any) => handleFieldChange("geminiAlwaysIncludeThoughts", e.target.checked)}>
+							Include Thoughts in Response (Always)
+						</VSCodeCheckbox>
+						<p
+							style={{
+								fontSize: "12px",
+								marginTop: "5px",
+								color: "var(--vscode-descriptionForeground)",
+							}}>
+							Force Gemini to include its thinking process in the response, even if not explicitly requested.
+						</p>
+					</div>
+
+					<div style={{ marginTop: 10 }}>
+						<VSCodeCheckbox
+							checked={apiConfiguration?.geminiUseThinkingTag || false}
+							onChange={(e: any) => handleFieldChange("geminiUseThinkingTag", e.target.checked)}>
+							Require thinking tag in Prompt
+						</VSCodeCheckbox>
+						<p
+							style={{
+								fontSize: "12px",
+								marginTop: "5px",
+								color: "var(--vscode-descriptionForeground)",
+							}}>
+							Adds instructions to the system prompt requiring the model to output its thought process in thinking tags.
+						</p>
+					</div>
 
 					{/* When ThinkLevel is set, thinking budget cannot be adjusted and must be enabled */}
 					{SUPPORTED_THINKING_MODELS.includes(selectedModelId) &&

@@ -30,6 +30,20 @@ src/core/api/providers/gemini.ts
 - `topP`: 1
 - `thinkingConfig.includeThoughts`: false (禁用思考过程输出)
 
+### Gemini 配置完善 (Thinking Tag & Thoughts)
+完善了 Gemini 模型的配置项支持，解决了前端配置无法保存和生效的问题。
+
+核心改动：
+- **Proto 更新**:
+  - `proto/cline/models.proto`: 在 `ModelsApiConfiguration` 和 `ModelsApiOptions` 中新增 `gemini_always_include_thoughts` 和 `gemini_use_thinking_tag` 字段。
+  - 使用 `npm run protos` 重新生成了 TypeScript 代码 (`src/shared/proto/cline/models.ts`)。
+- **状态管理**:
+  - `src/shared/storage/state-keys.ts`: 在 `Settings` 接口中添加了字段定义。
+  - `src/core/storage/StateManager.ts`: 完善了缓存读取和写入逻辑，支持新字段的持久化。
+  - `src/core/storage/utils/state-helpers.ts`: 更新了磁盘状态读取逻辑。
+- **转换逻辑**:
+  - `src/shared/proto-conversions/models/api-configuration-conversion.ts`: 实现了新字段在应用层与 Proto 层之间的双向转换。
+
 ### Custom Roles (增加角色功能)
 新增了自定义角色管理功能，允许用户添加、编辑和删除自定义角色，并在聊天界面切换使用。每个角色可以配置独立的 System Prompt。
 

@@ -74,13 +74,22 @@ export const config = createVariant(ModelFamily.NEXT_GEN)
 		template: rules_template,
 	})
 	.overrideComponent(SystemPromptSection.TOOL_USE, {
-		template: tool_use_template,
+		template: (context) =>
+			context.providerInfo.geminiUseThinkingTag
+				? "" // Use default template (with thinking tags)
+				: tool_use_template(context),
 	})
 	.overrideComponent(SystemPromptSection.ACT_VS_PLAN, {
-		template: act_vs_plan_template,
+		template: (context) =>
+			context.providerInfo.geminiUseThinkingTag
+				? "" // Use default template (with thinking tags)
+				: act_vs_plan_template(context),
 	})
 	.overrideComponent(SystemPromptSection.OBJECTIVE, {
-		template: objective_template,
+		template: (context) =>
+			context.providerInfo.geminiUseThinkingTag
+				? "" // Use default template (with thinking tags)
+				: objective_template(context),
 	})
 	.build()
 

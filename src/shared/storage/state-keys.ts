@@ -135,7 +135,6 @@ export interface Settings {
 	planModeApiProvider: ApiProvider
 	planModeApiModelId: string | undefined
 	planModeThinkingBudgetTokens: number | undefined
-	geminiPlanModeThinkingLevel: string | undefined
 	planModeReasoningEffort: string | undefined
 	planModeVsCodeLmModelSelector: LanguageModelChatSelector | undefined
 	planModeAwsBedrockCustomSelected: boolean | undefined
@@ -169,11 +168,15 @@ export interface Settings {
 	planModeAihubmixModelId: string | undefined
 	planModeAihubmixModelInfo: ModelInfo | undefined
 	planModeNousResearchModelId: string | undefined
+	geminiPlanModeThinkingLevel: string | undefined
+
 	// Act mode configurations
 	actModeApiProvider: ApiProvider
 	actModeApiModelId: string | undefined
 	actModeThinkingBudgetTokens: number | undefined
 	geminiActModeThinkingLevel: string | undefined
+	geminiAlwaysIncludeThoughts: boolean | undefined
+	geminiUseThinkingTag: boolean | undefined
 	actModeReasoningEffort: string | undefined
 	actModeVsCodeLmModelSelector: LanguageModelChatSelector | undefined
 	actModeAwsBedrockCustomSelected: boolean | undefined

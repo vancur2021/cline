@@ -636,4 +636,6 @@ message ModelsApiConfiguration {
   optional OpenAiCompatibleModelInfo act_mode_aihubmix_model_info = 236;
   optional string act_mode_nous_research_model_id = 237;
   optional string gemini_act_mode_thinking_level = 238;
+  optional bool gemini_always_include_thoughts = 140;
+  optional bool gemini_use_thinking_tag = 141;
 }
