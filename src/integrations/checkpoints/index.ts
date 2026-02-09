@@ -680,7 +680,7 @@ export class TaskCheckpointManager implements ICheckpointManager {
 				this.taskState.conversationHistoryDeletedRange = message.conversationHistoryDeletedRange
 
 				const apiConversationHistory = this.services.messageStateHandler.getApiConversationHistory()
-				const newConversationHistory = apiConversationHistory.slice(0, (message.conversationHistoryIndex || 0) + 2) // +1 since this index corresponds to the last user message, and another +1 since slice end index is exclusive
+				const newConversationHistory = apiConversationHistory.slice(0, (message.conversationHistoryIndex || 0) + 1)
 				await this.services.messageStateHandler.overwriteApiConversationHistory(newConversationHistory)
 
 				// update the context history state
