@@ -151,8 +151,8 @@ export class GeminiHandler implements ApiHandler {
 			// Turn on dynamic thinking:
 			// thinkingBudget: -1
 			// Turn on fixed thinking budget:
-			thinkingBudget: thinkingLevel ? undefined : thinkingBudget,
-			thinkingLevel,
+			// thinkingBudget: thinkingLevel ? undefined : thinkingBudget,
+			// thinkingLevel,
 			includeThoughts: this.options.geminiAlwaysIncludeThoughts || false,
 		}
 
