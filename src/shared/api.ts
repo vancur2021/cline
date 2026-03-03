@@ -1236,9 +1236,9 @@ export const openAiModelInfoSaneDefaults: OpenAiCompatibleModelInfo = {
 // Gemini
 // https://ai.google.dev/gemini-api/docs/models/gemini
 export type GeminiModelId = keyof typeof geminiModels
-export const geminiDefaultModelId: GeminiModelId = "gemini-3.1-pro-preview"
+export const geminiDefaultModelId: GeminiModelId = "gemini-3.1-pro-high"
 export const geminiModels = {
-	"gemini-3.1-pro-preview": {
+	"gemini-3.1-pro-high": {
 		maxTokens: 65536,
 		contextWindow: 1_048_576,
 		supportsImages: true,
@@ -1267,36 +1267,7 @@ export const geminiModels = {
 			},
 		],
 	},
-	"gemini-3-pro-high": {
-		maxTokens: 65536,
-		contextWindow: 1_048_576,
-		supportsImages: true,
-		supportsPromptCache: true,
-		inputPrice: 4.0,
-		outputPrice: 18.0,
-		cacheReadsPrice: 0.4,
-		thinkingConfig: {
-			// If you don't specify a thinking level, Gemini will use the model's default
-			// dynamic thinking level, "high", for Gemini 3 Pro Preview.
-			geminiThinkingLevel: "high",
-			supportsThinkingLevel: true,
-		},
-		tiers: [
-			{
-				contextWindow: 200000,
-				inputPrice: 2.0,
-				outputPrice: 12.0,
-				cacheReadsPrice: 0.2,
-			},
-			{
-				contextWindow: Infinity,
-				inputPrice: 4.0,
-				outputPrice: 18.0,
-				cacheReadsPrice: 0.4,
-			},
-		],
-	},
-	"gemini-3-pro-low": {
+	"gemini-3.1-pro-low": {
 		maxTokens: 65536,
 		contextWindow: 1_048_576,
 		supportsImages: true,
@@ -1337,44 +1308,27 @@ export const geminiModels = {
 			supportsThinkingLevel: true,
 		},
 	},
-	"gemini-3-pro-preview": {
-		maxTokens: 65536,
-		contextWindow: 1_048_576,
+	"claude-sonnet-4-6": {
+		maxTokens: 8192,
+		contextWindow: 200_000,
 		supportsImages: true,
 		supportsPromptCache: true,
-		inputPrice: 4.0,
-		outputPrice: 18.0,
-		cacheReadsPrice: 0.4,
-		thinkingConfig: {
-			// If you don't specify a thinking level, Gemini will use the model's default
-			// dynamic thinking level, "high", for Gemini 3 Pro Preview.
-			geminiThinkingLevel: "high",
-			supportsThinkingLevel: true,
-		},
-		tiers: [
-			{
-				contextWindow: 200000,
-				inputPrice: 2.0,
-				outputPrice: 12.0,
-				cacheReadsPrice: 0.2,
-			},
-			{
-				contextWindow: Infinity,
-				inputPrice: 4.0,
-				outputPrice: 18.0,
-				cacheReadsPrice: 0.4,
-			},
-		],
+		inputPrice: 3.0,
+		outputPrice: 15.0,
+		cacheWritesPrice: 3.75,
+		cacheReadsPrice: 0.3,
 	},
-	"gemini-3-flash-preview": {
-		maxTokens: 65536,
-		contextWindow: 1_048_576,
+	"claude-opus-4-6-thinking": {
+		maxTokens: 8192,
+		contextWindow: 200_000,
 		supportsImages: true,
 		supportsPromptCache: true,
-		inputPrice: 0.5,
-		outputPrice: 3.0,
+		inputPrice: 3.0,
+		outputPrice: 15.0,
+		cacheWritesPrice: 3.75,
+		cacheReadsPrice: 0.3,
 		thinkingConfig: {
-			geminiThinkingLevel: "medium",
+			geminiThinkingLevel: "high",
 			supportsThinkingLevel: true,
 		},
 	},
