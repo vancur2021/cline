@@ -141,7 +141,7 @@ export class GeminiHandler implements ApiHandler {
 			// Set temperature (default to 0)
 			// Gemini 3.0 recommends 1.0
 			temperature: 0,
-			topP: 1,
+			topP: 1.0,
 		}
 
 		// Add thinking config if the model supports it
@@ -152,7 +152,7 @@ export class GeminiHandler implements ApiHandler {
 			// thinkingBudget: -1
 			// Turn on fixed thinking budget:
 			// thinkingBudget: thinkingLevel ? undefined : thinkingBudget,
-			// thinkingLevel,
+			thinkingLevel,
 			includeThoughts: this.options.geminiAlwaysIncludeThoughts || false,
 		}
 
