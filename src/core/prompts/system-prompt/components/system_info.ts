@@ -6,9 +6,7 @@ import { SystemPromptSection } from "../templates/placeholders"
 import { TemplateEngine } from "../templates/TemplateEngine"
 import type { PromptVariant, SystemPromptContext } from "../types"
 
-const SYSTEM_INFO_TEMPLATE_TEXT = `SYSTEM INFORMATION
-
-Operating System: {{os}}
+const SYSTEM_INFO_TEMPLATE_TEXT = `Operating System: {{os}}
 IDE: {{ide}}
 Default Shell: {{shell}}
 Home Directory: {{homeDir}}

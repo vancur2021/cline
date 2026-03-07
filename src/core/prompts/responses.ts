@@ -1,7 +1,7 @@
 import { Anthropic } from "@anthropic-ai/sdk"
 import * as diff from "diff"
 import * as path from "path"
-import { Mode } from "@/shared/storage/types"
+import { Mode } from "../../shared/storage/types"
 import { ClineIgnoreController, LOCK_TEXT_SYMBOL } from "../ignore/ClineIgnoreController"
 
 export const formatResponse = {
@@ -20,15 +20,15 @@ export const formatResponse = {
 
 	toolDenied: () => `The user denied this operation.`,
 
-	toolError: (error?: string) => `The tool execution failed with the following error:\n<error>\n${error}\n</error>`,
+	toolError: (error?: string) => `<EPHEMERAL_MESSAGE>\n<system_warning>\nThe tool execution failed with the following error:\n<error>\n${error}\n</error>\n</system_warning>\n</EPHEMERAL_MESSAGE>`,
 
 	clineIgnoreError: (path: string) =>
 		`Access to ${path} is blocked by the .clineignore file settings. You must try to continue in the task without using this file, or ask the user to update the .clineignore file.`,
 
-	noToolsUsed: (usingNativeToolCalls: boolean) =>
-		usingNativeToolCalls
-			? "[ERROR] You did not use a tool in your previous response! Please retry with a tool use."
-			: `[ERROR] You did not use a tool in your previous response! Please retry with a tool use.
+	noToolsUsed: (usingNativeToolCalls: boolean) => {
+		const message = usingNativeToolCalls
+			? "You did not use a tool in your previous response! Please retry with a tool use."
+			: `You did not use a tool in your previous response! Please retry with a tool use.
 
 ${toolUseInstructionsReminder}
 
@@ -37,16 +37,19 @@ ${toolUseInstructionsReminder}
 If you have completed the user's task, use the attempt_completion tool. 
 If you require additional information from the user, use the ask_followup_question tool. 
 Otherwise, if you have not completed the task and do not need additional information, then proceed with the next step of the task. 
-(This is an automated message, so do not respond to it conversationally.)`,
+(This is an automated message, so do not respond to it conversationally.)`
+		
+		return `<EPHEMERAL_MESSAGE>\n<system_warning>\n[ERROR] ${message}\n</system_warning>\n</EPHEMERAL_MESSAGE>`
+	},
 
 	tooManyMistakes: (feedback?: string) =>
 		`You seem to be having trouble proceeding. The user has provided the following feedback to help guide you:\n<feedback>\n${feedback}\n</feedback>`,
 
 	missingToolParameterError: (paramName: string) =>
-		`Missing value for required parameter '${paramName}'. Please retry with complete response.\n\n${toolUseInstructionsReminder}`,
+		`<EPHEMERAL_MESSAGE>\n<system_warning>\nMissing value for required parameter '${paramName}'. Please retry with complete response.\n\n${toolUseInstructionsReminder}\n</system_warning>\n</EPHEMERAL_MESSAGE>`,
 
 	invalidMcpToolArgumentError: (serverName: string, toolName: string) =>
-		`Invalid JSON argument used with ${serverName} for ${toolName}. Please retry with a properly formatted JSON argument.`,
+		`<EPHEMERAL_MESSAGE>\n<system_warning>\nInvalid JSON argument used with ${serverName} for ${toolName}. Please retry with a properly formatted JSON argument.\n</system_warning>\n</EPHEMERAL_MESSAGE>`,
 
 	toolResult: (
 		text: string,
@@ -220,13 +223,13 @@ Otherwise, if you have not completed the task and do not need additional informa
 		`${newProblemsMessage}`,
 
 	diffError: (relPath: string, originalContent: string | undefined) =>
-		`This is likely because the SEARCH block content doesn't match exactly with what's in the file, or if you used multiple SEARCH/REPLACE blocks they may not have been in the order they appear in the file. (Please also ensure that when using the replace_in_file tool, Do NOT add extra characters to the markers (e.g., ------- SEARCH> is INVALID). Do NOT forget to use the closing +++++++ REPLACE marker. Do NOT modify the marker format in any way. Malformed XML will cause complete tool failure and break the entire editing process.)\n\n` +
+		`<EPHEMERAL_MESSAGE>\n<system_warning>\nThis is likely because the SEARCH block content doesn't match exactly with what's in the file, or if you used multiple SEARCH/REPLACE blocks they may not have been in the order they appear in the file. (Please also ensure that when using the replace_in_file tool, Do NOT add extra characters to the markers (e.g., ------- SEARCH> is INVALID). Do NOT forget to use the closing +++++++ REPLACE marker. Do NOT modify the marker format in any way. Malformed XML will cause complete tool failure and break the entire editing process.)\n\n` +
 		`The file was reverted to its original state:\n\n` +
 		`<file_content path="${relPath.toPosix()}">\n${originalContent}\n</file_content>\n\n` +
-		`Now that you have the latest state of the file, try the operation again with fewer, more precise SEARCH blocks. For large files especially, it may be prudent to try to limit yourself to <5 SEARCH/REPLACE blocks at a time, then wait for the user to respond with the result of the operation before following up with another replace_in_file call to make additional edits.\n(If you run into this error 3 times in a row, you may use the write_to_file tool as a fallback.)`,
+		`Now that you have the latest state of the file, try the operation again with fewer, more precise SEARCH blocks. For large files especially, it may be prudent to try to limit yourself to <5 SEARCH/REPLACE blocks at a time, then wait for the user to respond with the result of the operation before following up with another replace_in_file call to make additional edits.\n(If you run into this error 3 times in a row, you may use the write_to_file tool as a fallback.)\n</system_warning>\n</EPHEMERAL_MESSAGE>`,
 
 	toolAlreadyUsed: (toolName: string) =>
-		`Tool [${toolName}] was not executed because a tool has already been used in this message. Only one tool may be used per message. You must assess the first tool's result before proceeding to use the next tool.`,
+		`<EPHEMERAL_MESSAGE>\n<system_warning>\nTool [${toolName}] was not executed because a tool has already been used in this message. Only one tool may be used per message. You must assess the first tool's result before proceeding to use the next tool.\n</system_warning>\n</EPHEMERAL_MESSAGE>`,
 
 	clineIgnoreInstructions: (content: string) =>
 		`# .clineignore\n\n(The following is provided by a root-level .clineignore file where the user has specified files and directories that should not be accessed. When using list_files, you'll notice a ${LOCK_TEXT_SYMBOL} next to files that are blocked. Attempting to access the file's contents e.g. through read_file will result in an error.)\n\n${content}\n.clineignore`,

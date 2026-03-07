@@ -35,7 +35,7 @@ describe("PromptBuilder", () => {
 	}
 
 	const mockComponents: ComponentRegistry = {
-		SYSTEM_INFO_SECTION: async () => "SYSTEM INFORMATION\n\nOS: macOS\nShell: zsh",
+		SYSTEM_INFO_SECTION: async () => "<user_information>\n\nOS: macOS\nShell: zsh",
 		TOOL_USE_SECTION: async () => "TOOL USE\n\n- {{TOOLS}}",
 		CAPABILITIES_SECTION: async () => "CAPABILITIES\n\n- Code execution\n- File operations",
 		RULES_SECTION: async () => "RULES\n\n- Follow best practices\n- Be concise",
@@ -76,7 +76,7 @@ describe("PromptBuilder", () => {
 			expect(result).to.include("TOOL USE")
 			expect(result).to.include("CAPABILITIES")
 			expect(result).to.include("RULES")
-			expect(result).to.include("SYSTEM INFORMATION")
+			expect(result).to.include("<user_information>")
 			expect(result).to.include("OS: macOS")
 		})
 

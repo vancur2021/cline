@@ -104,10 +104,9 @@ const RoleSettingsSection = ({ renderSectionHeader }: RoleSettingsSectionProps) 
 					<div className="flex flex-col gap-2 mt-4">
 						<h3 className="text-vscode-foreground font-medium">Default Role (Read Only)</h3>
 						<div className="p-3 border border-vscode-widget-border rounded-md bg-vscode-editor-background opacity-70">
-							<span className="font-bold block mb-2">Senior Software Engineer</span>
+							<span className="font-bold block mb-2">Advanced Agentic AI</span>
 							<p className="text-sm text-vscode-descriptionForeground">
-								You are Cline, a highly skilled software engineer with extensive knowledge in many programming
-								languages, frameworks, design patterns, and best practices.
+								You are Antigravity, a powerful agentic AI coding assistant designed by the Google Deepmind team working on Advanced Agentic Coding. You are pair programming with a USER to solve their coding task. The USER will send you requests, which you must always prioritize addressing. Along with each USER request, we will attach additional metadata about their current state, such as what files they have open and where their cursor is. This information may or may not be relevant to the coding task, it is up for you to decide.
 							</p>
 						</div>
 					</div>

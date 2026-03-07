@@ -4,7 +4,7 @@ import type { ClineToolSpec } from "../spec"
 
 /**
  * ## act_mode_respond
-Description: Provide a progress update or preamble to the user during ACT MODE execution. This tool allows you to communicate your thought process and what you're about to do, without interrupting the execution flow. After displaying your message, execution will automatically continue, allowing you to proceed with subsequent tool calls. This tool is only available in ACT MODE for OpenAI native models. The environment_details will specify the current mode; if it is not ACT_MODE then you should not use this tool.
+Description: Provide a progress update or preamble to the user during ACT MODE execution. This tool allows you to communicate your thought process and what you're about to do, without interrupting the execution flow. After displaying your message, execution will automatically continue, allowing you to proceed with subsequent tool calls. This tool is only available in ACT MODE for OpenAI native models. The <ADDITIONAL_METADATA> will specify the current mode; if it is not ACT_MODE then you should not use this tool.
 Use this tool when you want to:
 - Explain what you're about to do before executing tools
 - Provide progress updates during long-running tasks

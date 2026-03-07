@@ -2659,12 +2659,17 @@ export class Task {
 		}
 
 		// Replace userContent with parsed content that includes file details and command instructions.
-		userContent = parsedUserContent
+		userContent = parsedUserContent.map((block) => {
+			if (block.type === "text" && !block.text.startsWith("<USER_REQUEST>")) {
+				return { ...block, text: `<USER_REQUEST>\n${block.text}\n</USER_REQUEST>` }
+			}
+			return block
+		})
 
 		// add environment details as its own text block, separate from tool results
 		// do not add environment details to the message which we are compacting the context window
 		if (environmentDetails) {
-			userContent.push({ type: "text", text: environmentDetails })
+			userContent.push({ type: "text", text: `<ADDITIONAL_METADATA>\n${environmentDetails}\n</ADDITIONAL_METADATA>` })
 		}
 
 		if (shouldCompact) {
@@ -3636,6 +3641,6 @@ export class Task {
 			details += "\nACT MODE"
 		}
 
-		return `<environment_details>\n${details.trim()}\n</environment_details>`
+		return `${details.trim()}`
 	}
 }

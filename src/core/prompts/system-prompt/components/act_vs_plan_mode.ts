@@ -4,7 +4,7 @@ import type { PromptVariant, SystemPromptContext } from "../types"
 
 const getActVsPlanModeTemplateText = (context: SystemPromptContext) => `ACT MODE V.S. PLAN MODE
 
-In each user message, the environment_details will specify the current mode. There are two modes:
+In each user message, the <ADDITIONAL_METADATA> will specify the current mode. There are two modes:
 
 - ACT MODE: In this mode, you have access to all tools EXCEPT the plan_mode_respond tool.
  - In ACT MODE, you use tools to accomplish the user's task. Once you've completed the user's task, you use the attempt_completion tool to present the result of the task to the user.

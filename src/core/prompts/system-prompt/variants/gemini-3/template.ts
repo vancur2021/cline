@@ -1,46 +1,39 @@
 import { SystemPromptSection } from "../../templates/placeholders"
 
-export const baseTemplate = `{{${SystemPromptSection.AGENT_ROLE}}}
+export const baseTemplate = `<identity>
+{{${SystemPromptSection.AGENT_ROLE}}}
+</identity>
 
-{{${SystemPromptSection.USER_INSTRUCTIONS}}}
+<objective>
+{{${SystemPromptSection.OBJECTIVE}}}
+</objective>
 
-====
+<capabilities>
+{{${SystemPromptSection.CAPABILITIES}}}
 
 {{${SystemPromptSection.TOOL_USE}}}
 
-====
-
-{{${SystemPromptSection.TODO}}}
-
-====
-
-{{${SystemPromptSection.ACT_VS_PLAN}}}
-
-====
-
-{{${SystemPromptSection.CAPABILITIES}}}
-
-====
-
 {{${SystemPromptSection.EDITING_FILES}}}
 
+{{${SystemPromptSection.ACT_VS_PLAN}}}
+</capabilities>
 
-====
-
-{{${SystemPromptSection.TASK_PROGRESS}}}
-
-====
-
+<communication_style>
 {{${SystemPromptSection.FEEDBACK}}}
+</communication_style>
 
-====
+<user_information>
+{{${SystemPromptSection.SYSTEM_INFO}}}
+</user_information>
 
+<user_rules>
 {{${SystemPromptSection.RULES}}}
 
-====
+{{${SystemPromptSection.USER_INSTRUCTIONS}}}
+</user_rules>
 
-{{${SystemPromptSection.SYSTEM_INFO}}}
 
-====
-
-{{${SystemPromptSection.OBJECTIVE}}}`
+<task_tracking>
+{{${SystemPromptSection.TODO}}}
+{{${SystemPromptSection.TASK_PROGRESS}}}
+</task_tracking>`

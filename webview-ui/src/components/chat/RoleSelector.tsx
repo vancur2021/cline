@@ -5,9 +5,9 @@ import { updateSetting } from "../settings/utils/settingsHandlers"
 const RoleSelector = () => {
 	const { customRoles, currentRole } = useExtensionState()
 
-	const allRoles = [{ name: "Senior Software Engineer", description: "Default role" }, ...(customRoles || [])]
+	const allRoles = [{ name: "Advanced Agentic AI", description: "Default role" }, ...(customRoles || [])]
 
-	const selectedRole = currentRole || "Senior Software Engineer"
+	const selectedRole = currentRole || "Advanced Agentic AI"
 
 	return (
 		<div className="flex items-center relative group cursor-pointer w-auto">

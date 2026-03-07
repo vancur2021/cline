@@ -15,13 +15,16 @@ src/shared/api.ts
 - `src/core/prompts/system-prompt/variants/next-gen/overrides.ts`: 新增文件，定义不包含 thinking 标签要求的 `TOOL_USE` (Guidelines), `ACT_VS_PLAN`, 和 `OBJECTIVE` 模板。
 - `src/core/prompts/system-prompt/tools/attempt_completion.ts`: 新增 `NEXT_GEN` 工具定义，移除 description 中的 `<thinking>` 标签要求。
 
-### 其他 Prompt 调整
-src/core/prompts/system-prompt/variants/gemini-3/config.ts
-src/core/prompts/system-prompt/variants/gemini-3/template.ts
-src/core/prompts/system-prompt/variants/next-gen/config.ts
-src/core/prompts/system-prompt/variants/next-gen/template.ts
-修改prompt，USER_INSTRUCTIONS 放到 AGENT_ROLE 之后。
-没有启用 Native Tool Calls，导致 Cline 回退到了 NEXT_GEN 变体，所以需要修改next-gen
+### Agentic 架构大重构 (全面对齐 DeepMind)
+对核心 Prompt 体系进行了深度解耦与 XML 语意重构：
+1. **基础模板 XML 化**：彻底废弃基于 `====` 的文字隔离，通过 `<identity>`, `<capabilities>`, `<user_rules>`, `<user_information>` 重构了所有变体模板。
+2. **规则组件 (Rules) 语义解耦**：
+   - 抽出工具细则到独立组件 `<tool_use_guidelines>`。
+   - 抽出沟通语气规范（如不准寒暄）到 `<communication_style>`。
+   - `USER_INSTRUCTIONS` 现已合并并入更高权重的 `<user_rules>` 中。
+3. **Turn-by-turn 分离机制**：在 Task 调度环上，用户发言与物理环境分离。自然命令现在以 `<USER_REQUEST>` 传输，当前工作目录、终端等状态在 `<ADDITIONAL_METADATA>` 传输，显著降低推理幻觉。
+4. **底层幽灵通知 (Ephemeral Messages)**：拦截因模型缺少参数或正则失效导致的错误，全部替换为通过 `<EPHEMERAL_MESSAGE><system_warning>` 包裹的系统级注入，防止模型误当人类从而错误道歉或开启废话模式。
+5. **身份默认修改**：将系统默认人设从 `Cline` 改为了 Google DeepMind 下的高度自动代理身份 `Antigravity`，进一步激发出大模型的 Agent 能力。
 
 ### Gemini 参数调整
 src/core/api/providers/gemini.ts
