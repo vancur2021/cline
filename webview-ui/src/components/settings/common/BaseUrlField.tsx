@@ -13,6 +13,7 @@ interface BaseUrlFieldProps {
 	placeholder?: string
 	disabled?: boolean
 	showLockIcon?: boolean
+	quickUrls?: { label: string; url: string }[]
 }
 
 /**
@@ -25,6 +26,7 @@ export const BaseUrlField = ({
 	placeholder = "Default: https://api.example.com",
 	disabled = false,
 	showLockIcon = false,
+	quickUrls,
 }: BaseUrlFieldProps) => {
 	const [isEnabled, setIsEnabled] = useState(!!initialValue)
 	const [localValue, setLocalValue] = useDebouncedInput(initialValue || "", onChange)
@@ -47,14 +49,32 @@ export const BaseUrlField = ({
 			</div>
 
 			{isEnabled && (
-				<VSCodeTextField
-					disabled={disabled}
-					onInput={(e: any) => setLocalValue(e.target.value.trim())}
-					placeholder={placeholder}
-					style={{ width: "100%", marginTop: 3 }}
-					type="text"
-					value={localValue}
-				/>
+				<div className="flex flex-col gap-2 mt-1">
+					<VSCodeTextField
+						disabled={disabled}
+						onInput={(e: any) => setLocalValue(e.target.value.trim())}
+						placeholder={placeholder}
+						style={{ width: "100%" }}
+						type="text"
+						value={localValue}
+					/>
+					{quickUrls && quickUrls.length > 0 && (
+						<div className="flex flex-wrap gap-2">
+							{quickUrls.map((item, index) => (
+								<span
+									key={index}
+									className="text-xs px-2 py-1 rounded cursor-pointer hover:bg-[var(--vscode-button-secondaryHoverBackground)] bg-[var(--vscode-button-secondaryBackground)] text-[var(--vscode-button-secondaryForeground)] transition-colors"
+									onClick={() => {
+										if (!disabled) {
+											setLocalValue(item.url)
+										}
+									}}>
+									{item.label}
+								</span>
+							))}
+						</div>
+					)}
+				</div>
 			)}
 		</div>
 	)

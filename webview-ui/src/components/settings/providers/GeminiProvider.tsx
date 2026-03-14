@@ -54,6 +54,10 @@ export const GeminiProvider = ({ showModelOptions, isPopup, currentMode }: Gemin
 				label="Use custom base URL"
 				onChange={(value) => handleFieldChange("geminiBaseUrl", value)}
 				placeholder="Default: https://generativelanguage.googleapis.com"
+				quickUrls={[
+					{ label: "本地代理", url: "http://127.0.0.1:5345" },
+					{ label: "Antigravity", url: "https://anti.8972464.xyz" },
+				]}
 			/>
 
 			{showModelOptions && (
