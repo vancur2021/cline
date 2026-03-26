@@ -5,12 +5,19 @@ import { updateSetting } from "../settings/utils/settingsHandlers"
 const RoleSelector = () => {
 	const { customRoles, currentRole } = useExtensionState()
 
-	const allRoles = useMemo(
-		() => [{ name: "Senior Software Engineer", description: "Default role" }, ...(customRoles || [])],
-		[customRoles]
-	)
+	const allRoles = useMemo(() => {
+		if (!customRoles || customRoles.length === 0) {
+			return [{ name: "Senior Software Engineer", description: "Default role" }]
+		}
+		return customRoles
+	}, [customRoles])
 
-	const selectedRole = currentRole || "Senior Software Engineer"
+	const selectedRole = useMemo(() => {
+		if (currentRole && allRoles.some((r) => r.name === currentRole)) {
+			return currentRole
+		}
+		return allRoles[0].name
+	}, [currentRole, allRoles])
 
 	const stateRef = useRef({ allRoles, selectedRole })
 	useEffect(() => {
