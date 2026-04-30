@@ -690,22 +690,26 @@ export class TaskCheckpointManager implements ICheckpointManager {
 				// aggregate deleted api reqs info so we don't lose costs/tokens
 				const clineMessages = this.services.messageStateHandler.getClineMessages()
 
-				// Logic Changed: We are deleting the current message (Assistant) as well.
-				// Additionally, if the previous message is a User Message, we delete that too to keep the conversation clean.
-				let startIndex = messageIndex - 2
-				// const previousMessage = clineMessages[messageIndex - 2]
-
-				// if (previousMessage && previousMessage.type === "say") {
-				// 	let previousCheckpointIndex = findLastIndex(
-				// 		clineMessages.slice(0, messageIndex),
-				// 		(m) => m.say === "checkpoint_created",
-				// 	)
-				// 	previousCheckpointIndex += 1
-
-				// 	if (previousCheckpointIndex !== -1) {
-				// 		startIndex = previousCheckpointIndex
-				// 	}
-				// }
+				// Determine the start index for deletion.
+				// We look backwards from the current checkpoint to find if this action was initiated by a user message.
+				// If we find a user message ("task" or "user_feedback") before hitting another checkpoint,
+				// we delete from that user message onwards (returning it to the input box).
+				// Otherwise, we just delete the checkpoint and everything after it.
+				let startIndex = messageIndex
+				for (let i = messageIndex - 1; i >= 0; i--) {
+					const msg = clineMessages[i]
+					
+					// Stop looking if we hit the previous checkpoint
+					if (msg.lastCheckpointHash !== undefined) {
+						break
+					}
+					
+					// If we find a user message in this round, set it as the start index
+					if (msg.say === "user_feedback" || msg.say === "task") {
+						startIndex = i
+						break
+					}
+				}
 
 				const deletedMessages = clineMessages.slice(startIndex)
 				const deletedApiReqsMetrics = getApiMetrics(combineApiRequests(combineCommandSequences(deletedMessages)))
